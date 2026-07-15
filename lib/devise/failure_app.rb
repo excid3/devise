@@ -139,7 +139,7 @@ module Devise
         path = if request.get?
           attempted_path
         else
-          request.referrer
+          extract_path_from_location(request.referrer)
         end
 
         path || scope_url
