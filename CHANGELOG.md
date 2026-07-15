@@ -1,7 +1,12 @@
+### 5.0.4 - 2026-05-08
+
+* security fixes
+  * Fix open redirect in `FailureApp` via unvalidated `Referer` header on non-GET session timeout. CVE-2026-40295 [GHSA-jp94-3292-c3xv](https://github.com/heartcombo/devise/security/advisories/GHSA-jp94-3292-c3xv)
+
 ### 5.0.3 - 2026-03-16
 
 * security fixes
-  * Fix race condition vulnerability on confirmable "change email" which would allow confirming an email they don't own CVE-2026-32700 [#5783](https://github.com/heartcombo/devise/pull/5783) [#5784](https://github.com/heartcombo/devise/pull/5784)
+  * Fix race condition vulnerability on confirmable "change email" which would allow confirming an email they don't own CVE-2026-32700 [GHSA-57hq-95w6-v4fc](https://github.com/heartcombo/devise/security/advisories/GHSA-57hq-95w6-v4fc) [#5783](https://github.com/heartcombo/devise/pull/5783) [#5784](https://github.com/heartcombo/devise/pull/5784)
 
 ### 5.0.2 - 2026-02-18
 

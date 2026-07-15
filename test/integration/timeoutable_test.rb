@@ -87,6 +87,26 @@ class SessionTimeoutTest < Devise::IntegrationTest
     assert_equal edit_form_user_url(user), current_url
   end
 
+  test 'time out on non-GET request does not redirect to an external host supplied via the referer' do
+    user = sign_in_as_user
+    get expire_user_path(user)
+
+    put update_form_user_path(user), headers: { 'HTTP_REFERER' => 'http://evil.example/phishing' }
+
+    assert_response :redirect
+    assert_redirected_to '/phishing'
+  end
+
+  test 'time out on non-GET request with an opaque referer falls back to the sign in page' do
+    user = sign_in_as_user
+    get expire_user_path(user)
+
+    put update_form_user_path(user), headers: { 'HTTP_REFERER' => 'javascript:alert(1)' }
+
+    assert_response :redirect
+    assert_redirected_to new_user_session_path
+  end
+
   test 'time out is not triggered on sign out' do
     user = sign_in_as_user
     get expire_user_path(user)

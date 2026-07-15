@@ -56,7 +56,7 @@ module Devise
       def extract_path_from_location(location)
         uri = parse_uri(location)
 
-        if uri 
+        if uri && uri.path
           path = remove_domain_from_uri(uri)
           path = add_fragment_back_to_path(uri, path)
 

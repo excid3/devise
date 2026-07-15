@@ -224,10 +224,20 @@ class ControllerAuthenticatableTest < Devise::ControllerTestCase
     assert_equal "/foo.bar", @controller.stored_location_for(:user)
   end
 
-  test 'store bad location for stores a location to redirect back to' do
-    assert_nil @controller.stored_location_for(:user)
-    @controller.store_location_for(:user, "/foo.bar\">Carry")
-    assert_nil @controller.stored_location_for(:user)
+  test 'store bad location for does not store a location to redirect back to' do
+    bad_locations = [
+      "/foo.bar\">Carry",       # unparseable
+      "http://[invalid",        # unparseable
+      "javascript:alert(1)",    # opaque URI, no path
+      "mailto:foo@example.com", # opaque URI, no path
+      nil,
+    ]
+
+    bad_locations.each do |location|
+      @controller.store_location_for(:user, location)
+      assert_nil @controller.stored_location_for(:user),
+        "expected bad location #{location.inspect} to not be stored"
+    end
   end
 
   test 'store location for accepts a resource as argument' do
